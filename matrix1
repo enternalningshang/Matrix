@@ -1,0 +1,72 @@
+/*******************************************
+作者：剑御玫瑰
+目的：输出奇数阶魔方阵（用到动态赋值数组长度）
+*******************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	int n, row, column, i;
+
+	printf("请输入魔方阵的阶数：");     //输入阶数
+	scanf("%d", &n);
+
+	if (n > 0 && n % 2 != 0)            //判断
+	{
+		int a[n][n];                    //动态定义二维数组
+
+		column = n / 2;
+		row = 0;
+		a[row][column] = 1;            //第一行中间那一个位置放1，其余的按照规律放置
+		for (i = 2; i <= n * n; i++)
+		{
+			row -= 1;
+			column += 1;
+			if (i % n == 1)           //每n个后的那一个的存放规律不同于前面的
+			{
+                column -= 1;           //前面已有row自减1.column自加1，所以要更改
+                row += 2;
+				if (row == n)            //这两个if是我自己想到的两种情况写上供读者思考
+                {
+                    row = 0;
+                }
+                if (column == -1)
+                {
+                    column = n-1;
+                }
+			}
+
+            if (row == -1)             //这是普通情况下会遇到的两种边界特殊情况
+            {
+                row = n-1;
+            }
+            if (column == n)
+            {
+                column = 0;
+            }
+
+			a[row][column] = i;
+		}
+		for (row = 0; row < n; row++)
+		{
+			for(column = 0; column < n; column++)
+			{
+				printf("%5d ", a[row][column]);          //控制循环输出
+				if(column == n - 1)
+				{
+					printf("\n");
+				}
+			}
+		}
+	}
+	else
+	{
+		printf("无%d阶魔方阵。\n", n);
+	}
+
+	system("pause");
+
+	return 0;
+}
